@@ -1,0 +1,39 @@
+{
+  "DefaultRepo.PublicMethods.GetProductsList": {
+    "AccessRules": {
+      "AllowedRoles": [],
+      "AllowedUsers": [],
+      "DeniedUsers": []
+    },
+    "CachePolicy": {
+      "CacheLevel": "AllUsers",
+      "AbsoluteExpirationSeconds": 300
+    },
+    "LogPolicy": "TrimInputs"
+  },
+  "DefaultRepo.PublicMethods.GetServices": {
+    "AccessRules": {
+      "AllowedRoles": [],
+      "AllowedUsers": [],
+      "DeniedUsers": []
+    },
+    "CachePolicy": {
+      "CacheLevel": "AllUsers",
+      "AbsoluteExpirationSeconds": 300
+    },
+    "LogPolicy": "TrimInputs"
+  },
+  "DefaultRepo.PublicMethods.SendContactMessage": {
+    "AccessRules": {
+      "AllowedRoles": [],
+      "AllowedUsers": [],
+      "DeniedUsers": []
+    },
+    "CachePolicy": {
+      "CacheLevel": "None"
+    },
+    "LogPolicy": "Full"
+  }
+}
+
+
