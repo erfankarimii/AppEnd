@@ -8,19 +8,42 @@ using Microsoft.AspNetCore.StaticFiles;
 using System.IO.Compression;
 using System.Net;
 
-LogMan.SetupLoggers();
+#if DEBUG
+// Ensure Development environment when debugging
+Environment.SetEnvironmentVariable("ASPNETCORE_ENVIRONMENT", "Development");
+#endif
 
-var builder = ConfigServices(CreateBuilder(args));
-var app = builder.Build();
+try
+{
+	LogMan.SetupLoggers();
 
-app.UseCors("AppEndPolicy");
-app.UseResponseCompression();
-app.UseForwardedHeaders(GetForwardedHeadersOptions());
-app.UseHttpsRedirection();
-app.UseRpcNet();
-app.UseFileServer(GetFileServerOptions());
-app.UseRouting();
-app.Run();
+	// Avoid heavy DynaCode.Refresh when no server code changes
+	AppEndDynaCode.DynaCodeGuard.TryRefresh();
+
+	var builder = ConfigServices(CreateBuilder(args));
+	var app = builder.Build();
+
+	app.Lifetime.ApplicationStopping.Register(LogMan.Flush);
+	app.Lifetime.ApplicationStopped.Register(LogMan.Flush);
+
+	app.UseCors("AppEndPolicy");
+	app.UseResponseCompression();
+	app.UseForwardedHeaders(GetForwardedHeadersOptions());
+	app.UseHttpsRedirection();
+	app.UseRpcNet();
+	app.UseFileServer(GetFileServerOptions());
+	app.UseRouting();
+	app.Run();
+}
+catch (Exception ex)
+{
+	LogMan.LogError(ex);
+	throw;
+}
+finally
+{
+	LogMan.Flush();
+}
 
 
 static WebApplicationBuilder CreateBuilder(string[] args)
@@ -67,24 +90,3 @@ static ForwardedHeadersOptions GetForwardedHeadersOptions()
 {
 	return new ForwardedHeadersOptions { ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto };
 }
-
-
-//app.Urls.Add("http://localhost:3000");
-//app.Urls.Add("http://localhost:4000");
-
-//fileServerOptions.StaticFileOptions.OnPrepareResponse = ctx =>
-//{
-//	ctx.Context.Response.Headers[Microsoft.Net.Http.Headers.HeaderNames.CacheControl] = "public,max-age=" + (60 * 60 * 24);
-
-//	//ctx.Context.Response.Headers[Microsoft.Net.Http.Headers.HeaderNames.CacheControl] = "s-maxage=1, stale-while-revalidate=59";
-//	//var headers = ctx.Context.Response.GetTypedHeaders();
-//	//headers.CacheControl = new Microsoft.Net.Http.Headers.CacheControlHeaderValue
-//	//{
-//	//	Public = true,
-//	//	MaxAge = TimeSpan.FromDays(30)
-//	//};
-
-//	//ctx.Context.Response.Headers["cache-control"] = "public,max-age=31536000";
-//	//ctx.Context.Response.Headers["expires"] = DateTime.UtcNow.AddYears(1).ToString("R");
-
-//};

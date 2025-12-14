@@ -1,6 +1,6 @@
 <template>
     <div class="card h-100 bg-transparent rounded-0 border-0">
-        <div class="card-header p-2 bg-primary-subtle-light rounded-0 border-0">
+        <div class="card-header p-2 bg-body-subtle rounded-0 border-0">
             <div class="hstack gap-1">
                 <select id="dataSources" class="form-select form-select-sm" style="max-width:200px;" v-model='rowsFilter.DbConfName' @change="readList">
                     <option value="DefaultRepo">DefaultRepo:MsSql</option>
@@ -115,11 +115,11 @@
                 <tbody>
                     <tr v-for="i in filteredD" :key="i.ObjectName">
                         <td style="width:300px;white-space: nowrap; overflow: hidden;text-overflow: ellipsis;vertical-align:middle">
-                            <a v-if="rowsFilter.SelectedObjectType==='Table'" :href="'?c=components/DbTableDesigner&cnn='+rowsFilter.DbConfName+'&o='+i.ObjectName" class="p-1 text-secondary text-hover-success text-decoration-none" :data-ae-key="i.ObjectName">
+                            <a v-if="rowsFilter.SelectedObjectType==='Table'" :href="'?c=components/DbTableDesigner&cnn='+rowsFilter.DbConfName+'&o='+i.ObjectName" class="p-1 text-secondary text-hover-primary text-decoration-none" :data-ae-key="i.ObjectName">
                                 <i class="fa-solid fa-fw fa-edit me-1"></i>
-                                <span class="fb objectname">{{i.ObjectName}}</span>
+                                <span class="fw-bold objectname">{{i.ObjectName}}</span>
                             </a>
-                            <a v-if="rowsFilter.SelectedObjectType!=='Table'" :href="'?c=components/DbScriptEditor&cnn='+rowsFilter.DbConfName+'&o='+i.ObjectName" class="p-1 text-secondary text-hover-success text-decoration-none" :data-ae-key="i.ObjectName">
+                            <a v-if="rowsFilter.SelectedObjectType!=='Table'" :href="'?c=components/DbScriptEditor&cnn='+rowsFilter.DbConfName+'&o='+i.ObjectName" class="p-1 text-secondary text-hover-primary text-decoration-none" :data-ae-key="i.ObjectName">
                                 <i class="fa-solid fa-fw fa-edit"></i> <span class="fb objectname">{{i.ObjectName}}</span>
                             </a>
                         </td>
@@ -131,7 +131,7 @@
                         <td style="vertical-align:middle;text-align:center">
                             <a :href="'?c=components/DbDialogDesigner&cnn='+rowsFilter.DbConfName+'&o='+i.ObjectName"
                                v-if="i.HasServerObjects===true" class="text-primary hover-success pointer text-decoration-none" :data-ae-key="i.ObjectName">
-                                <i class="fa-solid fa-fw fa-puzzle-piece"></i> Change
+                                <i class="fa-solid fa-fw fa-edit"></i> Edit
                             </a>
                         </td>
                         <td></td>

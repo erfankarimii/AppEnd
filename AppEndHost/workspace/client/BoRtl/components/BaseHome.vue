@@ -5,7 +5,7 @@
                 <div class="row h-100 bg-transparent">
                     <div class="col-48 col-md-5">
                         
-                        <div class="card" style="background-color:#f4ffe9">
+                        <div class="card bg-success-subtle">
                             <div class="card-body p-1">
                                 <div class="font-monospace text-center fs-1d5">
                                     <component-loader src="/a.SharedComponents/DigitalClock" uid="digitalClock" />
@@ -13,7 +13,7 @@
                             </div>
                         </div>
 
-                        <div class="card mt-2" style="background-color:#fff7f7">
+                        <div class="card mt-2 bg-danger-subtle">
                             <div class="card-body">
                                 <div class="font-monospace text-center fs-1d3">
                                     <component-loader src="/a.SharedComponents/MySummary" uid="mySummary" />
@@ -24,7 +24,7 @@
                         <div class="card mt-2">
                             <div class="card-body">
                                 Actions
-                                <hr class="my-1 border-3 border-secondary-subtle" />
+                                <hr class="my-1 border-3 border-primary" />
                                 <div class="btn btn-sm btn-link text-decoration-none ps-1" @click="reBuild">
                                     <i class="fa-solid fa-fw fa-chevron-right"></i> <span>ReBuild Code Files</span>
                                 </div>
@@ -41,9 +41,6 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="card-footer p-2 bg-light-subtle rounded-bottom-0 fs-d8">
-            <component-loader src="/a.SharedComponents/BaseAcountActions" uid="baseAcountActions" />
         </div>
     </div>
 </template>

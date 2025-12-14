@@ -27,12 +27,37 @@ namespace AppEndCommon
 						{
 							WriteIndented = true
 						});
-						File.WriteAllText("appsettings.json", s);
+						File.WriteAllText(GetSettingsFilePath(forWrite: true), s);
 						_appsettings = null;
 					}
 					_dbServers = AppSettings[ConfigSectionName]?[nameof(DbServers)]?.AsArray();
 				}
 				return _dbServers;
+			}
+		}
+
+		private static JsonArray? _llmProviders;
+		public static JsonArray LLMProviders
+		{
+			get
+			{
+				if (_llmProviders is null)
+				{
+					if (AppSettings[ConfigSectionName] == null) AppSettings[ConfigSectionName] = JsonNode.Parse("{}")?.AsObject();
+					if (AppSettings[ConfigSectionName]?[nameof(LLMProviders)] == null)
+					{
+						if (AppSettings == null || AppSettings[ConfigSectionName] == null) return [];
+						AppSettings[ConfigSectionName]?[nameof(LLMProviders)] = JsonNode.Parse("[]")?.AsArray();
+						string s = JsonSerializer.Serialize(AppSettings, options: new()
+						{
+							WriteIndented = true
+						});
+						File.WriteAllText(GetSettingsFilePath(forWrite: true), s);
+						_appsettings = null;
+					}
+					_llmProviders = AppSettings[ConfigSectionName]?[nameof(LLMProviders)]?.AsArray();
+				}
+				return _llmProviders;
 			}
 		}
 
@@ -52,12 +77,34 @@ namespace AppEndCommon
 						{
 							WriteIndented = true
 						});
-						File.WriteAllText("appsettings.json", s);
+						File.WriteAllText(GetSettingsFilePath(forWrite: true), s);
 						_appsettings = null;
 					}
 					_serilog = AppSettings[ConfigSectionName]?[nameof(Serilog)]?.AsObject();
 				}
 				return _serilog;
+			}
+		}
+
+		private static JsonNode? _aaa;
+		public static JsonNode AAA
+		{
+			get
+			{
+				if (_aaa is null)
+				{
+					if (AppSettings[ConfigSectionName] == null) AppSettings[ConfigSectionName] = JsonNode.Parse("{}")?.AsObject();
+					if (AppSettings[ConfigSectionName]?[nameof(AAA)] == null)
+					{
+						// Backward compatible: if legacy keys exist at root, keep them until next save
+						AppSettings[ConfigSectionName]?[nameof(AAA)] = JsonNode.Parse("{}")?.AsObject();
+						string s = JsonSerializer.Serialize(AppSettings, options: new() { WriteIndented = true });
+						File.WriteAllText(GetSettingsFilePath(forWrite: true), s);
+						_appsettings = null;
+					}
+					_aaa = AppSettings[ConfigSectionName]?[nameof(AAA)]?.AsObject();
+				}
+				return _aaa;
 			}
 		}
 
@@ -74,35 +121,66 @@ namespace AppEndCommon
         public static string ClientObjectsPath => $"{WorkspacePath}/client";
         public static string AppEndPackagesPath => $"{WorkspacePath}/appendpackages";
 
-        public static string LoginDbConfName => AppSettings[ConfigSectionName]?[nameof(LoginDbConfName)]?.ToString() ?? "DefaultRepo";
-
-        public static string LogDbConfName => AppSettings[ConfigSectionName]?[nameof(LogDbConfName)]?.ToString() ?? "DefaultRepo";
-
-        public static int LogWriterQueueCap => AppSettings[ConfigSectionName]?[nameof(LogWriterQueueCap)]?.ToIntSafe() ?? 0;
+        public static string LoginDbConfName
+        {
+            get
+            {
+                // Prefer AAA section; fallback to legacy key for backward compatibility
+                return AAA?[nameof(LoginDbConfName)]?.ToString() ?? AppSettings[ConfigSectionName]?[nameof(LoginDbConfName)]?.ToString() ?? "DefaultRepo";
+            }
+        }
 
         public static string TalkPoint => AppSettings[ConfigSectionName]?[nameof(TalkPoint)]?.ToString() ?? "talk-to-me";
 
-        public static string PublicKeyRole => AppSettings[ConfigSectionName]?[nameof(PublicKeyRole)]?.ToString() ?? "";
+        public static string PublicKeyRole
+        {
+            get
+            {
+                return AAA?[nameof(PublicKeyRole)]?.ToString() ?? AppSettings[ConfigSectionName]?[nameof(PublicKeyRole)]?.ToString() ?? "";
+            }
+        }
 
         public static string DefaultSuccessLoggerMethod => AppSettings[ConfigSectionName]?[nameof(DefaultSuccessLoggerMethod)]?.ToString() ?? "";
 
 		public static string DefaultErrorLoggerMethod => AppSettings[ConfigSectionName]?[nameof(DefaultErrorLoggerMethod)]?.ToString() ?? "";
 		public static string DefaultDbConfName => AppSettings[ConfigSectionName]?[nameof(DefaultDbConfName)]?.ToString() ?? "";
 
-		public static string PublicKeyUser => AppSettings[ConfigSectionName]?[nameof(PublicKeyUser)]?.ToString() ?? "";
+		public static string PublicKeyUser
+        {
+            get
+            {
+                return AAA?[nameof(PublicKeyUser)]?.ToString() ?? AppSettings[ConfigSectionName]?[nameof(PublicKeyUser)]?.ToString() ?? "";
+            }
+        }
 		public static string LogsPath => AppSettings[ConfigSectionName]?[nameof(LogsPath)]?.ToString() ?? "log";
 		public static string LogLevel => AppSettings[ConfigSectionName]?[nameof(LogLevel)]?.ToString() ?? "Information";
 		public static int MaxLogFileSizeBytes => AppSettings[ConfigSectionName]?[nameof(MaxLogFileSizeBytes)]?.ToIntSafe() ?? 2048;
 
 		
 
-		public static string[]? PublicMethods => AppSettings[ConfigSectionName]?[nameof(PublicMethods)]?.ToString().DeserializeAsStringArray();
+		public static string[]? PublicMethods
+        {
+            get
+            {
+                var pmAAA = AAA?[nameof(PublicMethods)]?.ToString().DeserializeAsStringArray();
+                if (pmAAA != null) return pmAAA;
+                return AppSettings[ConfigSectionName]?[nameof(PublicMethods)]?.ToString().DeserializeAsStringArray();
+            }
+        }
 
 		public static string Secret => AppSettings[ConfigSectionName]?[nameof(Secret)]?.ToString() ?? ConfigSectionName;
 
-		
-
-		public static bool IsDevelopment => AppSettings[ConfigSectionName]?[nameof(IsDevelopment)]?.ToBooleanSafe() ?? false;
+		// Make Development detection robust: honor ASPNETCORE_ENVIRONMENT=Development or config flag
+		public static bool IsDevelopment
+		{
+			get
+			{
+				var env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+				bool envDev = env != null && env.Equals("Development", StringComparison.OrdinalIgnoreCase);
+				bool cfgDev = AppSettings[ConfigSectionName]?[nameof(IsDevelopment)]?.ToBooleanSafe() ?? false;
+				return envDev || cfgDev;
+			}
+		}
 		public static bool EnableFileLogging => AppSettings[ConfigSectionName]?[nameof(EnableFileLogging)]?.ToBooleanSafe() ?? true;
 
 		private static JsonNode? _appsettings;
@@ -113,11 +191,12 @@ namespace AppEndCommon
                 if (_appsettings != null) return _appsettings;
                 
                 // Load base appsettings.json
-                if (!File.Exists("appsettings.json")) throw new AppEndException("AppSettingsFileIsNotExist", System.Reflection.MethodBase.GetCurrentMethod()).GetEx();
-                _appsettings = JsonNode.Parse(File.ReadAllText("appsettings.json"));
-				if (_appsettings is null) throw new AppEndException("AppSettingsFileIsNotExist", System.Reflection.MethodBase.GetCurrentMethod()).GetEx();
+                string basePath = GetSettingsFilePath(forWrite: false);
+                if (!File.Exists(basePath)) throw new AppEndException("AppSettingsFileIsNotExist", System.Reflection.MethodBase.GetCurrentMethod()).GetEx();
+                var baseSettings = JsonNode.Parse(File.ReadAllText(basePath));
+				if (baseSettings is null) throw new AppEndException("AppSettingsFileIsNotExist", System.Reflection.MethodBase.GetCurrentMethod()).GetEx();
 				
-				// Check if we're in Development environment and merge appsettings.Development.json if it exists
+				// If Development and dev settings exist, use dev settings entirely (no merge) to avoid leaking base-only sections
 				string? environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
 				if (environment != null && environment.Equals("Development", StringComparison.OrdinalIgnoreCase))
 				{
@@ -129,7 +208,8 @@ namespace AppEndCommon
 							var devSettings = JsonNode.Parse(File.ReadAllText(devSettingsPath));
 							if (devSettings != null)
 							{
-								_appsettings = MergeJsonNodes(_appsettings, devSettings);
+								_appsettings = devSettings;
+								return _appsettings;
 							}
 						}
 						catch
@@ -139,9 +219,32 @@ namespace AppEndCommon
 					}
 				}
 				
+				// Fallback: use base settings
+				_appsettings = baseSettings;
 				return _appsettings;
             }
         }
+
+		private static string GetSettingsFilePath(bool forWrite)
+		{
+			// Prefer Development file when environment is Development
+			var env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+			bool envDev = env != null && env.Equals("Development", StringComparison.OrdinalIgnoreCase);
+			string devPath = "appsettings.Development.json";
+			if (envDev)
+			{
+				// If writing, create dev file if missing; if reading, use dev if exists
+				if (forWrite)
+				{
+					return devPath;
+				}
+				else if (File.Exists(devPath))
+				{
+					return devPath;
+				}
+			}
+			return "appsettings.json";
+		}
 
 		private static JsonNode MergeJsonNodes(JsonNode baseNode, JsonNode overrideNode)
 		{
@@ -192,13 +295,17 @@ namespace AppEndCommon
 			{
 				WriteIndented = true
 			});
-			File.WriteAllText("appsettings.json", appSettingsText);
+			File.WriteAllText(GetSettingsFilePath(forWrite: true), appSettingsText);
 			RefereshSettings();
 		}
 
         public static void RefereshSettings()
         {
             _appsettings = null;
+			_llmProviders = null;
+			_dbServers = null;
+			_serilog = null;
+			_aaa = null;
         }
 
     }

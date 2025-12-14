@@ -1,13 +1,12 @@
 ﻿using System.Text.RegularExpressions;
+using System.Collections.Concurrent;
 
 namespace AppEndCommon
 {
     public static partial class ExtensionsForString
     {
-        public static string TransToX2(this string s)
-        {
-            return s + s;
-        }
+        private static readonly ConcurrentDictionary<string, List<string>> _sqlParamsCache = new();
+
         public static byte[] ToByteArray(this string fileString)
         {
 			return Convert.FromBase64String(fileString);
@@ -178,8 +177,67 @@ namespace AppEndCommon
 
 		public static List<string> ExtractSqlParameters(this string sql)
 		{
-            return SqlParamsRegex().Matches(sql).Select(i => i.Value.Replace("@", "")).ToList().Distinct().ToList();
+            if (string.IsNullOrEmpty(sql)) return [];
+            if (_sqlParamsCache.TryGetValue(sql, out var cached)) return cached;
+            var list = SqlParamsRegex().Matches(sql).Select(i => i.Value.Replace("@", "")).ToList().Distinct().ToList();
+            _sqlParamsCache[sql] = list;
+            return list;
 		}
+
+        public static string BeautifySql(this string sql)
+        {
+            if (string.IsNullOrWhiteSpace(sql)) return "";
+
+            // Normalize whitespace
+            string s = Regex.Replace(sql, @"\r\n|\r|\n", " ");
+            s = Regex.Replace(s, @"\s+", " ");
+            s = s.Trim();
+
+            // Uppercase common keywords
+            string[] keywords = new[]
+            {
+                "select","from","where","group by","order by","inner join","left join","right join","full join","join","on","and","or",
+                "insert into","values","update","set","delete","delete from","having","union","union all","exists","not exists",
+                "top","distinct","case","when","then","else","end","in","like","between","is null","is not null"
+            };
+            foreach (var kw in keywords.OrderByDescending(k => k.Length))
+            {
+                // word-boundary-ish replacement, case-insensitive
+                s = Regex.Replace(s, $"(?i)(?<![A-Z_]){Regex.Escape(kw)}(?![A-Z_])", kw.ToUpper());
+            }
+
+            // Line breaks before primary clauses
+            string[] breakBefore = new[] { " SELECT ", " FROM ", " WHERE ", " GROUP BY ", " ORDER BY ", " HAVING ", " UNION ", " UNION ALL ", " INSERT INTO ", " UPDATE ", " DELETE FROM " };
+            foreach (var bb in breakBefore)
+            {
+                s = s.Replace(bb, SV.NL + bb.Trim() + " ");
+            }
+
+            // Line breaks for JOIN and ON
+            s = Regex.Replace(s, " (?i)JOIN ", SV.NL + "JOIN ");
+            s = Regex.Replace(s, " (?i)INNER JOIN ", SV.NL + "INNER JOIN ");
+            s = Regex.Replace(s, " (?i)LEFT JOIN ", SV.NL + "LEFT JOIN ");
+            s = Regex.Replace(s, " (?i)RIGHT JOIN ", SV.NL + "RIGHT JOIN ");
+            s = Regex.Replace(s, " (?i)FULL JOIN ", SV.NL + "FULL JOIN ");
+            s = Regex.Replace(s, " (?i) ON ", SV.NL + "ON ");
+
+            // Newline after commas in select lists and SET clauses
+            s = Regex.Replace(s, @"\s*,\s*", "," + SV.NL + "    ");
+
+            // Indent AND/OR in WHERE
+            s = Regex.Replace(s, $"{SV.NL}(?i)AND ", SV.NL + "    AND ");
+            s = Regex.Replace(s, $"{SV.NL}(?i)OR ", SV.NL + "    OR ");
+
+            // Collapse extra newlines
+            s = s.Replace(RepeatN(SV.NL, 3), SV.NL);
+            s = s.Replace(RepeatN(SV.NL, 2), SV.NL);
+            // Remove whitespace-only lines
+            s = s.RemoveWhitelines();
+
+            s = s.Trim();
+
+            return s;
+        }
 
 
 		[GeneratedRegex(@"^\s+$[\r\n]*", RegexOptions.Multiline)]

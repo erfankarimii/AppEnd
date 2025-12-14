@@ -1078,7 +1078,7 @@ namespace AppEndDbIO
 						else
 						{
 							statements[1] = ReplaceDollarValues(statements[1]);
-							r = dbIO.ToDataSet(string.Join(SV.NL.TransToX2(), statements), dbQuery.FinalDbParameters, ["Master", "Aggregations"]);
+							r = dbIO.ToDataSet(string.Join(SV.NL.RepeatN(2), statements), dbQuery.FinalDbParameters, ["Master", "Aggregations"]);
 						}
 						break;
 					case QueryType.AggregatedReadList:
@@ -1121,7 +1121,7 @@ namespace AppEndDbIO
             {
                 var aeEx = new AppEndException($"SqlStatementError", System.Reflection.MethodBase.GetCurrentMethod())
 								.AddParam("Message", ex.Message)
-								.AddParam("SqlStatement", s)
+								.AddParam("SqlStatement", s.BeautifySql())
                                 .GetEx();
 
                 Dispose();

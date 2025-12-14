@@ -133,19 +133,19 @@ function setAppTitle(title) {
     if (fixNullOrEmpty(title, '$auto$') === "$auto$") {
         let ci = getCurrentAppNavItem();
         tText = translate(ci.itemTitle);
-        tHtml = `<span class="text-secondary title-first-part"><i class="${ci.parentIcon} me-1 d-none d-md-inline-block d-lg-inline-block"></i><span class="d-none d-md-inline-block d-lg-inline-block">${ci.parentTitle}</span></span> <span class="d-none d-md-inline-block d-lg-inline-block">&nbsp;&nbsp;/&nbsp;&nbsp;</span> <span class="text-success title-second-part"><i class="${ci.itemIcon} me-1"></i><span>${ci.itemTitle}</span></span>`;
+        tHtml = `<span class="text-secondary title-first-part"><i class="${ci.parentIcon} me-1 d-none d-md-inline-block d-lg-inline-block"></i><span class="d-none d-md-inline-block d-lg-inline-block">${ci.parentTitle}</span></span> <span class="d-none d-md-inline-block d-lg-inline-block">&nbsp;&nbsp;/&nbsp;&nbsp;</span> <span class="text-dark fw-bold title-second-part"><i class="${ci.itemIcon} me-1"></i><span>${ci.itemTitle}</span></span>`;
     } else {
         tText = translate($(`<div>${title}</div>`).text());
         tHtml = title;
     }
     $(".app-title").html(tHtml);
     document.title = getAppConfig().title + " :: " + tText;
-    setAppMessage(translate("Ready"), 5000, 'text-success');
+    setAppMessage(translate("Ready"), 5000, 'text-dark');
 }
 function setAppSubTitle(title) {
     $(".app-subtitle").html(title);
     document.title = document.title + " :: " + title;
-    setAppMessage("Ready", 5000, 'text-success');
+    setAppMessage("Ready", 5000, 'text-dark');
 }
 function setAppMessage(msg, dur, cssClasses) {
     dur = fixNull(dur, 5000);
@@ -188,8 +188,12 @@ function initVueComponent(_this) {
 }
 function initPage() {
     shared.heavyWorkingCover = $(".static-working-cover").get(0).outerHTML;
-    shared.notHeavyWorkingCover = shared.heavyWorkingCover.replace("white", "transparent");
-    shared.miniHeavyWorkingCover = shared.heavyWorkingCover.replace("background-color: white !important;", "background-color: white !important;opacity:.5;").replace("static-working-cover", "static-working-cover-busy");
+    // Use token-based classes instead of hard-coded colors
+    shared.notHeavyWorkingCover = shared.heavyWorkingCover.replace("bg-elevated", "bg-transparent");
+    // Create a semi-transparent busy cover and mark with a distinct class
+    shared.miniHeavyWorkingCover = shared.heavyWorkingCover
+        .replace("static-working-cover", "static-working-cover-busy")
+        .replace("\"position: fixed;", "\"position: fixed;opacity:.5;");
     $(".static-working-cover").get(0).remove();
     $("body").append(`<div id="topEndToastContainer" class="position-fixed top-0 end-0 p-3" style="z-index:99999;"></div><div id="mytemp"></div>`);
 }
@@ -295,11 +299,22 @@ function openComponent(src, options) {
 
     options.animation = options.animation.replaceAll("$dir$", getLayoutDir()).replaceAll("$DirHand$", getLayoutDir() === 'rtl' ? "Right" : "Left");
 
-    createWindow();
     shared["params_" + id] = options.params;
-    function createWindow() {
+
+    // Reuse a single modal container if possible to reduce DOM churn
+    let containerId = 'ae-modal-container';
+    let container = document.getElementById(containerId);
+    if (!container) {
+        container = document.createElement('div');
+        container.id = containerId;
+        document.body.appendChild(container);
+    }
+
+    createWindow(container);
+
+    function createWindow(root) {
         let dBody = $(getDialogHtml());
-        $("body").append(dBody);
+        root.appendChild(dBody.get(0));
         $(document).ready(function () {
             const mdl = new bootstrap.Modal(options.sharpId, {});
             let app = Vue.createApp();
@@ -310,16 +325,18 @@ function openComponent(src, options) {
             let m = document.getElementById(options.id);
             m.addEventListener('shown.bs.modal', () => {
                 $("#c_" + options.id).attr("data-ae-ready", "true");
-                $(`.scrollable`).overlayScrollbars({});
+                // Avoid re-initializing overlays globally; only for modal body
+                $(m).find('.scrollable').overlayScrollbars({});
                 m.focus();
             });
             m.addEventListener('hidden.bs.modal', event => {
                 setTimeout(function () {
+                    // Recycle by clearing content instead of removing container node
                     m.remove();
                     setTimeout(function () {
                         $(".modal:last").focus();
                     }, 50);
-                }, 200);
+                }, 100);
             });
             mdl.show();
         });
@@ -963,7 +980,7 @@ function removeQueryString(queryStringName) {
     if (history.pushState) {
         var params = new URLSearchParams(window.location.search);
         params.delete(queryStringName);
-        var newUrl = window.location.origin + window.location.pathname + '?' + params.toString();
+        var newUrl = window.origin + window.location.pathname + '?' + params.toString();
         window.history.pushState({ path: newUrl }, '', newUrl);
     }
 }

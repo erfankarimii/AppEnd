@@ -1,6 +1,6 @@
 <template>
     <div class="card h-100 bg-transparent rounded-0 border-0">
-        <div class="card-header p-2 bg-primary-subtle-light rounded-0 border-0">
+        <div class="card-header p-2 bg-body-subtle rounded-0 border-0">
             <div class="hstack gap-1">
 
                 <button class="btn btn-sm btn-link text-decoration-none bg-hover-light" @click="save"><i class="fa-solid fa-save"></i> Save</button>
@@ -178,17 +178,9 @@
 </template>
 
 <script>
-    shared.setAppTitle(`<i class="fa-solid fa-fw fa-database"></i> <span>Table Designer</span>`);
-    shared.setAppSubTitle(getQueryString("o"));
-    let _this = {
-        cid: "",
-        dbConfName: getQueryString("cnn"),
-        tableDef: {
-            Name: getQueryString("o"),
-            Columns: []
-        },
-        c: null, editor: null
-    };
+    shared.setAppTitle(`<a href="?c=components/DbDbObjects" class="text-decoration-none"><i class="fa-solid fa-fw fa-database"></i><span>DbObjects</span></a> / `);
+    shared.setAppSubTitle(`<span class="text-secondary">Table Designer</span> (${getQueryString("o")})`);
+    let _this = { cid: "", dbConfName: getQueryString("cnn"), tableDef: { Name: getQueryString("o"), Columns: [] }, c: null, editor: null };
     export default {
         methods: {
             deleteFk(event) {

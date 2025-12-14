@@ -8,13 +8,12 @@ namespace AppEndDbIO
 {
     public abstract class DbIO : IDisposable
     {
-        private readonly DbConnection dbConnection;
+        // Remove persistent connection; rely on ADO.NET pooling per operation
         
         public DbConf DbInfo { get; init; }
         public DbIO(DbConf dbInfo)
         {
             DbInfo = dbInfo;
-            dbConnection = CreateConnection();
         }
 
 		public static DbIO Instance(DbConf dbConf)
@@ -38,7 +37,8 @@ namespace AppEndDbIO
         {
             try
             {
-                using DbCommand command = CreateDbCommand(commandString, dbConnection, dbParameters);
+                using DbConnection cnn = CreateConnection();
+                using DbCommand command = CreateDbCommand(commandString, cnn, dbParameters);
                 DataSet ds = new();
                 using var adapter = CreateDataAdapter(command);
                 adapter.Fill(ds);
@@ -61,17 +61,18 @@ namespace AppEndDbIO
             catch (Exception ex)
             {
                 string content = ex.Message + SV.NL;
-                content += commandString + SV.NL;
+                content += commandString.BeautifySql() + SV.NL;
                 content += dbParameters.ToJsonStringByNewtonsoft() + SV.NL;
                 LogMan.LogError(content);
-                throw ex;
+                throw;
             }
 		}
         public Dictionary<string, DataTable> ToDataTable(string commandString, List<DbParameter>? dbParameters = null, string? tableName = null)
         {
             try
             {
-                using DbCommand command = CreateDbCommand(commandString, dbConnection, dbParameters);
+                using DbConnection cnn = CreateConnection();
+                using DbCommand command = CreateDbCommand(commandString, cnn, dbParameters);
                 using var sdr = command.ExecuteReader();
                 DataTable dt = new();
                 dt.Load(sdr);
@@ -81,60 +82,62 @@ namespace AppEndDbIO
             catch (Exception ex)
             {
                 string content = ex.Message + SV.NL;
-                content += commandString + SV.NL;
+                content += commandString.BeautifySql() + SV.NL;
                 content += dbParameters.ToJsonStringByNewtonsoft() + SV.NL;
                 LogMan.LogError(content);
-                throw ex;
+                throw;
             }
 		}
         public object? ToScalar(string commandString, List<DbParameter>? dbParameters = null)
         {
             try
             {
-                using DbCommand command = CreateDbCommand(commandString, dbConnection, dbParameters);
+                using DbConnection cnn = CreateConnection();
+                using DbCommand command = CreateDbCommand(commandString, cnn, dbParameters);
                 var s = command.ExecuteScalar();
                 return s;
             }
             catch (Exception ex)
             {
                 string content = ex.Message + SV.NL;
-                content += commandString + SV.NL;
+                content += commandString.BeautifySql() + SV.NL;
                 content += dbParameters.ToJsonStringByNewtonsoft() + SV.NL;
                 LogMan.LogError(content);
-                throw ex;
+                throw;
             }
 		}
 		public void ToNoneQuery(string commandString, List<DbParameter>? dbParameters = null)
 		{
             try
             {
-                using DbCommand command = CreateDbCommand(commandString, dbConnection, dbParameters);
+                using DbConnection cnn = CreateConnection();
+                using DbCommand command = CreateDbCommand(commandString, cnn, dbParameters);
                 command.ExecuteNonQuery();
             }
             catch (Exception ex)
             {
                 string content = ex.Message + SV.NL;
-                content += commandString + SV.NL;
+                content += commandString.BeautifySql() + SV.NL;
                 content += dbParameters.ToJsonStringByNewtonsoft() + SV.NL;
                 LogMan.LogError(content);
-                throw ex;
+                throw;
             }
 		}
-		public void ToNoneQueryAsync(string commandString, List<DbParameter>? dbParameters = null)
+		public async Task ToNoneQueryAsync(string commandString, List<DbParameter>? dbParameters = null)
 		{
             try
             {
-                using DbCommand command = CreateDbCommand(commandString, dbConnection, dbParameters);
-                // Execute synchronously but ensure command is disposed after completion
-                command.ExecuteNonQueryAsync().ConfigureAwait(false).GetAwaiter().GetResult();
+                using DbConnection cnn = CreateConnection();
+                using DbCommand command = CreateDbCommand(commandString, cnn, dbParameters);
+                await command.ExecuteNonQueryAsync().ConfigureAwait(false);
             }
             catch (Exception ex)
             {
                 string content = ex.Message + SV.NL;
-                content += commandString + SV.NL;
+                content += commandString.BeautifySql() + SV.NL;
                 content += dbParameters.ToJsonStringByNewtonsoft() + SV.NL;
                 LogMan.LogError(content);
-                throw ex;
+                throw;
             }
 		}
 
@@ -165,8 +168,7 @@ namespace AppEndDbIO
 			if (_disposed) return;
 			if (disposing)
 			{
-				dbConnection?.Close();
-				dbConnection?.Dispose();
+				// No persistent connection to dispose
 			}
 			_disposed = true;
 		}

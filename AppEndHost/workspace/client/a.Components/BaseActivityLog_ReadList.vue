@@ -1,6 +1,6 @@
 <template>
     <div class="card h-100 bg-transparent rounded-0 border-0">
-        <div class="card-header p-2 px-0 bg-primary-subtle-light rounded-0 border-0">
+        <div class="card-header p-2 bg-body-subtle rounded-0 border-0">
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-48 col-md-6">
@@ -122,7 +122,7 @@
                 </div>
             </div>
         </div>
-        <div class="card-footer rounded-0 border-0 border-top border-top-1 border-warning-subtle p-0 bg-white">
+        <div class="card-footer rounded-0 border-0 border-top border-top-1 border-secondary p-0 bg-white">
             <div class="input-group input-group-sm border-0 bg-white">
                 <div class="input-group-text border-0 d-none d-md-block d-lg-block d-xl-block fs-d7 pt-2 bg-white">
                     <span class="text-secondary">{{shared.translate("OrderBy")}}</span>
@@ -188,7 +188,7 @@
     _this.orderableColumns = ["EventOn"];
     _this.orderClauses = [{ Name: "EventOn", OrderDirection: "DESC" }];
     _this.initialResponses = [{ Duration: 0, Result: { Master: [], Aggregations: [{ "Count": 0 }] } }];
-    _this.initialRequests = [genListRequest(_this.loadMethod, {}, _this.orderClauses, { PageNumber: 1, PageSize: 100 })];
+    _this.initialRequests = [genListRequest(_this.loadMethod, {}, _this.orderClauses, { PageNumber: 1, PageSize: 50 })];
     _this.filter = { "Method": null, "IsSucceeded": null, "RecordId": null, "Id": null, "FromCache": null, "EventById": null, "EventByName": null };
     _this.initialSearchOptions = _.cloneDeep(_this.filter);
     _this.clientQueryMetadata = {

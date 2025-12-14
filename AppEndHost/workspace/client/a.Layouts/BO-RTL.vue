@@ -11,7 +11,7 @@
                              data-ae-options='{"showFooter":false,"showHeader":false,"resizable":false,"modalSize":"modal-md","closeByOverlay":true,"placement":"end"}' />
                     </td>
                     <td class="px-3">
-                        
+
                         <div class="input-group input-group-sm border-0 align-items-center">
 
                             <div class="fw-bold shadow5 fs-d8 d-block d-lg-none ms-3">
@@ -35,7 +35,7 @@
                             </div>
 
                             <input type="text" class="form-control form-control-sm border-0 rounded-0 bg-transparent" disabled />
-                            
+
                             <div class="d-none d-lg-block fs-d8 fw-bold dropdown">
                                 <div class="animate__animated animate__slideInDown border border-2 border-0 rounded-2 p-1 text-bg-light shadow-sm pointer" data-bs-toggle="dropdown" aria-expanded="false" style="height:36px;">
                                     <img :src="shared.getImageURI(shared.getLogedInUserContext()['Picture_FileBody'])" class="border border-2 rounded-rounded-2 shadow-sm h-100" v-if="shared.fixNull(shared.getLogedInUserContext()['Picture_FileBody'],'')!==''" />
@@ -156,7 +156,7 @@
         .rtl-layout-container {
             direction: rtl; /* Back to RTL for mobile */
         }
-        
+
         .sidebar-container {
             position: fixed;
             top: 55px;
@@ -168,9 +168,9 @@
             width: 280px;
         }
 
-        .sidebar-container.open {
-            transform: translateX(0);
-        }
+            .sidebar-container.open {
+                transform: translateX(0);
+            }
     }
 
     main.blurred {
@@ -204,7 +204,7 @@
             handleResize() {
                 this.isDesktop = window.innerWidth >= 992;
                 if (this.isDesktop) {
-                    this.isSideMenuVisible = false; 
+                    this.isSideMenuVisible = false;
                 }
             },
             changeThemeColor(event) {
@@ -223,7 +223,7 @@
                     b = parseInt(color.substring(5, 7), 16);
                 }
                 document.documentElement.style.setProperty('--bs-primary-rgb', `${r},${g},${b}`);
-                
+
                 const primarySubtle = this.blendColors(color, '#FFFFFF', 0.9);
                 document.documentElement.style.setProperty('--bs-primary-subtle-light', primarySubtle);
             },
