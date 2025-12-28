@@ -3,33 +3,40 @@
         <div class="card-header py-2 px-3 d-flex align-items-center gap-2">
             <i class="fa-solid fa-robot text-primary"></i>
             <span class="fw-bold flex-grow-1">AI Chat</span>
-            <small class="text-secondary">Model:</small>
+           
 
-            <div class="dropdown">
-                <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button" 
-                        id="modelDropdown" data-bs-toggle="dropdown" aria-expanded="false"
-                        style="min-width:200px; text-align:left;">
-                    <span>{{ selectedModelKey || 'Select a model...' }}</span>
+            <div class="dropdown ai-model-dropdown">
+                <button class="btn btn-sm ai-model-dropdown-btn dropdown-toggle dropdown-default" type="button" 
+                        id="modelDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="fa-solid fa-microchip me-2"></i>
+                    <span class="ai-model-text">{{ selectedModelKey || 'Select a model...' }}</span>
+                    <i class="fa-solid fa-chevron-down ms-2 ai-model-chevron"></i>
                 </button>
-                <ul class="dropdown-menu" aria-labelledby="modelDropdown" style="max-height: 300px; overflow-y: auto;">
+                <ul class="dropdown-menu ai-model-dropdown-menu" aria-labelledby="modelDropdown" style="max-height: 400px; overflow-y: auto;">
                     <template v-if="modelOptions && modelOptions.length > 0">
                         <template v-for="(provider, providerIndex) in modelOptions" :key="providerIndex">
-                            <li><h6 class="dropdown-header text-primary fw-bold">{{ provider.Name || 'Unknown Provider' }}</h6></li>
+                            <li>
+                                <h6 class="dropdown-header ai-model-header">
+                                    <i class="fa-solid fa-brain me-2"></i>
+                                    {{ provider.Name || 'Unknown Provider' }}
+                                </h6>
+                            </li>
                             <li v-for="(modelName, modelIndex) in (Array.isArray(provider.Models) ? provider.Models : [])" :key="modelIndex">
-                                <a class="dropdown-item" href="#" 
+                                <a class="dropdown-item ai-model-item" href="#" 
                                    :class="{ 'active': selectedModelKey === modelName }"
-                                   @click.stop.prevent="selectModel(modelName, $event)"
-                                   style="cursor: pointer;">
-                                    {{ modelName }}
+                                   @click.stop.prevent="selectModel(modelName, $event)">
+                                    <i class="fa-solid fa-robot me-2"></i>
+                                    <span class="flex-grow-1">{{ modelName }}</span>
+                                    <i v-if="selectedModelKey === modelName" class="fa-solid fa-check text-success ms-2"></i>
                                 </a>
                             </li>
-                            <li v-if="providerIndex < modelOptions.length - 1"><hr class="dropdown-divider"></li>
+                            <li v-if="providerIndex < modelOptions.length - 1"><hr class="dropdown-divider ai-model-divider"></li>
                         </template>
                     </template>
                     <li v-else>
-                        <span class="dropdown-item text-muted small">
+                        <span class="dropdown-item ai-model-item text-muted">
                             <i class="fa-solid fa-spinner fa-spin me-2"></i>
-                            Loading models... Please configure LLM Providers in Settings.
+                            <span>Loading models...</span>
                         </span>
                     </li>
                 </ul>
@@ -332,3 +339,149 @@
         props: { cid: String }
     };
 </script>
+<style scoped>
+/* AI Model Dropdown Styling */
+.ai-model-dropdown {
+    position: relative;
+}
+
+.ai-model-dropdown-btn {
+    background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+    border: 1px solid rgba(59, 130, 246, 0.2);
+    border-radius: 8px;
+    padding: 6px 12px;
+    min-width: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: all 0.2s ease;
+    color: #495057;
+    font-size: 0.875rem;
+    font-weight: 500;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.ai-model-dropdown-btn:hover {
+    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+    border-color: rgba(59, 130, 246, 0.4);
+    box-shadow: 0 4px 8px rgba(59, 130, 246, 0.1);
+    transform: translateY(-1px);
+}
+
+.ai-model-dropdown-btn:focus,
+.ai-model-dropdown-btn.show {
+    background: linear-gradient(135deg, #ffffff 0%, #f0f4ff 100%);
+    border-color: rgba(59, 130, 246, 0.5);
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15);
+    outline: none;
+}
+
+.ai-model-text {
+    flex: 1;
+    text-align: left;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.ai-model-chevron {
+    font-size: 0.7rem;
+    transition: transform 0.2s ease;
+    opacity: 0.6;
+}
+
+.ai-model-dropdown-btn.show .ai-model-chevron {
+    transform: rotate(180deg);
+}
+
+.ai-model-dropdown-menu {
+    border-radius: 12px;
+    padding: 8px;
+    min-width: 280px;
+    max-width: 350px;
+    max-height: 400px;
+    overflow-y: auto;
+    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.12);
+    border: 1px solid rgba(59, 130, 246, 0.15);
+    background: linear-gradient(180deg, #ffffff 0%, #fbfdff 100%);
+    margin-top: 6px;
+}
+
+.ai-model-header {
+    padding: 8px 12px;
+    margin: 0;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #3b82f6;
+    background: rgba(59, 130, 246, 0.05);
+    border-radius: 6px;
+    margin-bottom: 4px;
+}
+
+.ai-model-item {
+    padding: 10px 12px;
+    margin: 2px 0;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    color: #495057;
+    font-size: 0.875rem;
+    transition: all 0.15s ease;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.ai-model-item i.fa-robot {
+    color: #6c757d;
+    width: 18px;
+    text-align: center;
+    font-size: 0.9rem;
+}
+
+.ai-model-item:hover {
+    background: linear-gradient(90deg, rgba(59, 130, 246, 0.1) 0%, rgba(59, 130, 246, 0.05) 100%);
+    color: #3b82f6;
+    transform: translateX(4px);
+}
+
+.ai-model-item:hover i.fa-robot {
+    color: #3b82f6;
+}
+
+.ai-model-item.active {
+    background: linear-gradient(90deg, rgba(59, 130, 246, 0.15) 0%, rgba(59, 130, 246, 0.08) 100%);
+    color: #3b82f6;
+    font-weight: 600;
+    border-left: 3px solid #3b82f6;
+}
+
+.ai-model-item.active i.fa-robot {
+    color: #3b82f6;
+}
+
+.ai-model-divider {
+    margin: 8px 4px;
+    border-top: 1px solid rgba(59, 130, 246, 0.1);
+}
+
+/* Scrollbar styling for dropdown */
+.ai-model-dropdown-menu::-webkit-scrollbar {
+    width: 6px;
+}
+
+.ai-model-dropdown-menu::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+.ai-model-dropdown-menu::-webkit-scrollbar-thumb {
+    background: rgba(59, 130, 246, 0.3);
+    border-radius: 10px;
+}
+
+.ai-model-dropdown-menu::-webkit-scrollbar-thumb:hover {
+    background: rgba(59, 130, 246, 0.5);
+}
+</style>
