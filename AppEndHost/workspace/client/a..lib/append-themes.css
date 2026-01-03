@@ -1,0 +1,393 @@
+/* ====================================
+   FLUENT DESIGN THEME COLOR PALETTES
+   Based on Microsoft Fluent Design System
+   ==================================== */
+
+/* ==================== DEFAULT (No Theme) ==================== */
+:root {
+    --bg-frame-color: #e9ecef;
+    --bg-toolbar-color: #f8f9fa;
+}
+
+/* ==================== BLUE THEME (Default) ==================== */
+[data-theme="blue"] {
+    --bs-primary: #0078d4;
+    --bs-primary-rgb: 0, 120, 212;
+    --bs-primary-vibrant: #003d6b;
+    --bs-primary-light: #e1f0ff;
+    --bs-primary-lighter: #f0f8ff;
+    --bs-primary-dark: #005a9e;
+    --bs-primary-darker: #004578;
+    --bs-primary-subtle-light: #e1f0ff;
+    --bg-frame-color: #e1f0ff;
+    --bg-toolbar-color: #f5f9ff;
+}
+
+/* ==================== GREEN THEME ==================== */
+[data-theme="green"] {
+    --bs-primary: #107c10;
+    --bs-primary-rgb: 16, 124, 16;
+    --bs-primary-vibrant: #083d04;
+    --bs-primary-light: #dff6dd;
+    --bs-primary-lighter: #f0fdf0;
+    --bs-primary-dark: #0b5a08;
+    --bs-primary-darker: #094509;
+    --bs-primary-subtle-light: #dff6dd;
+    --bg-frame-color: #dff6dd;
+    --bg-toolbar-color: #f6fcf6;
+}
+
+/* ==================== TEAL THEME ==================== */
+[data-theme="teal"] {
+    --bs-primary: #008272;
+    --bs-primary-rgb: 0, 130, 114;
+    --bs-primary-vibrant: #003d39;
+    --bs-primary-light: #d5f2ed;
+    --bs-primary-lighter: #e6f9f6;
+    --bs-primary-dark: #005e52;
+    --bs-primary-darker: #00443a;
+    --bs-primary-subtle-light: #d5f2ed;
+    --bg-frame-color: #d5f2ed;
+    --bg-toolbar-color: #f4fbfa;
+}
+
+/* ==================== PURPLE THEME ==================== */
+[data-theme="purple"] {
+    --bs-primary: #5c2d91;
+    --bs-primary-rgb: 92, 45, 145;
+    --bs-primary-vibrant: #2e1350;
+    --bs-primary-light: #e8d9f5;
+    --bs-primary-lighter: #f4edfa;
+    --bs-primary-dark: #401b6c;
+    --bs-primary-darker: #2e1350;
+    --bs-primary-subtle-light: #e8d9f5;
+    --bg-frame-color: #e8d9f5;
+    --bg-toolbar-color: #f9f5fc;
+}
+
+/* ==================== MAGENTA THEME ==================== */
+[data-theme="magenta"] {
+    --bs-primary: #b4009e;
+    --bs-primary-rgb: 180, 0, 158;
+    --bs-primary-vibrant: #5a004d;
+    --bs-primary-light: #f9d6f4;
+    --bs-primary-lighter: #fce9fa;
+    --bs-primary-dark: #7a0069;
+    --bs-primary-darker: #5a004d;
+    --bs-primary-subtle-light: #f9d6f4;
+    --bg-frame-color: #f9d6f4;
+    --bg-toolbar-color: #fcf6fb;
+}
+
+/* ==================== RED THEME ==================== */
+[data-theme="red"] {
+    --bs-primary: #d13438;
+    --bs-primary-rgb: 209, 52, 56;
+    --bs-primary-vibrant: #7d161f;
+    --bs-primary-light: #fadede;
+    --bs-primary-lighter: #fceded;
+    --bs-primary-dark: #a71d2a;
+    --bs-primary-darker: #7d161f;
+    --bs-primary-subtle-light: #fadede;
+    --bg-frame-color: #fadede;
+    --bg-toolbar-color: #fcf7f7;
+}
+
+/* ==================== AMBER THEME ==================== */
+[data-theme="orange"] {
+    --bs-primary: #d97706;
+    --bs-primary-rgb: 217, 119, 6;
+    --bs-primary-vibrant: #1c0a00;
+    --bs-primary-light: #fef3c7;
+    --bs-primary-lighter: #fffbeb;
+    --bs-primary-dark: #92400e;
+    --bs-primary-darker: #78350f;
+    --bs-primary-subtle-light: #fef3c7;
+    --bg-frame-color: #fef3c7;
+    --bg-toolbar-color: #fffbeb;
+}
+
+/* ==================== GOLD THEME ==================== */
+[data-theme="yellow"] {
+    --bs-primary: #f59e0b;
+    --bs-primary-rgb: 245, 158, 11;
+    --bs-primary-vibrant: #2d1a05;
+    --bs-primary-light: #fef3c7;
+    --bs-primary-lighter: #fffbeb;
+    --bs-primary-dark: #b45309;
+    --bs-primary-darker: #92400e;
+    --bs-primary-subtle-light: #fef3c7;
+    --bg-frame-color: #fef3c7;
+    --bg-toolbar-color: #fffbeb;
+}
+
+/* ==================== INDIGO THEME ==================== */
+[data-theme="indigo"] {
+    --bs-primary: #4b53bc;
+    --bs-primary-rgb: 75, 83, 188;
+    --bs-primary-vibrant: #1f2466;
+    --bs-primary-light: #e0e1f5;
+    --bs-primary-lighter: #f0f1fa;
+    --bs-primary-dark: #3a4199;
+    --bs-primary-darker: #2a2f75;
+    --bs-primary-subtle-light: #e0e1f5;
+    --bg-frame-color: #e0e1f5;
+    --bg-toolbar-color: #f5f6fc;
+}
+
+/* ==================== CYAN THEME ==================== */
+[data-theme="cyan"] {
+    --bs-primary: #00b7c3;
+    --bs-primary-rgb: 0, 183, 195;
+    --bs-primary-vibrant: #006871;
+    --bs-primary-light: #d6f4f6;
+    --bs-primary-lighter: #ebfafb;
+    --bs-primary-dark: #008b94;
+    --bs-primary-darker: #006871;
+    --bs-primary-subtle-light: #d6f4f6;
+    --bg-frame-color: #d6f4f6;
+    --bg-toolbar-color: #f4fcfd;
+}
+
+/* ==================== NAVY THEME ==================== */
+[data-theme="navy"] {
+    --bs-primary: #002050;
+    --bs-primary-rgb: 0, 32, 80;
+    --bs-primary-vibrant: #000d1f;
+    --bs-primary-light: #d6dbe5;
+    --bs-primary-lighter: #ebeef2;
+    --bs-primary-dark: #001533;
+    --bs-primary-darker: #000d1f;
+    --bs-primary-subtle-light: #d6dbe5;
+    --bg-frame-color: #d6dbe5;
+    --bg-toolbar-color: #f5f7f9;
+}
+
+/* ==================== GRAY THEME ==================== */
+[data-theme="gray"] {
+    --bs-primary: #5d5a58;
+    --bs-primary-rgb: 93, 90, 88;
+    --bs-primary-vibrant: #252423;
+    --bs-primary-light: #e5e4e3;
+    --bs-primary-lighter: #f2f2f1;
+    --bs-primary-dark: #3b3a39;
+    --bs-primary-darker: #252423;
+    --bs-primary-subtle-light: #e5e4e3;
+    --bg-frame-color: #e5e4e3;
+    --bg-toolbar-color: #f8f8f7;
+}
+
+/* ==================== LIGHT GRAY THEME ==================== */
+[data-theme="lightgray"] {
+    --bs-primary: #a19f9d;
+    --bs-primary-rgb: 161, 159, 157;
+    --bs-primary-vibrant: #5a5856;
+    --bs-primary-light: #ededec;
+    --bs-primary-lighter: #f6f6f5;
+    --bs-primary-dark: #797775;
+    --bs-primary-darker: #5a5856;
+    --bs-primary-subtle-light: #ededec;
+    --bg-frame-color: #ededec;
+    --bg-toolbar-color: #fafaf9;
+}
+
+/* ==================== BROWN THEME ==================== */
+[data-theme="brown"] {
+    --bs-primary: #8e562e;
+    --bs-primary-rgb: 142, 86, 46;
+    --bs-primary-vibrant: #4f2f19;
+    --bs-primary-light: #f0e6dc;
+    --bs-primary-lighter: #f7f2ed;
+    --bs-primary-dark: #6b4022;
+    --bs-primary-darker: #4f2f19;
+    --bs-primary-subtle-light: #f0e6dc;
+    --bg-frame-color: #f0e6dc;
+    --bg-toolbar-color: #faf6f3;
+}
+
+/* ==================== PINK THEME ==================== */
+[data-theme="pink"] {
+    --bs-primary: #e3008c;
+    --bs-primary-rgb: 227, 0, 140;
+    --bs-primary-vibrant: #850054;
+    --bs-primary-light: #fdd6ec;
+    --bs-primary-lighter: #feebf5;
+    --bs-primary-dark: #b10070;
+    --bs-primary-darker: #850054;
+    --bs-primary-subtle-light: #fdd6ec;
+    --bg-frame-color: #fdd6ec;
+    --bg-toolbar-color: #fef7fc;
+}
+
+/* ==================== COMPONENT STYLES ==================== */
+
+[data-theme] .btn-primary {
+    background-color: var(--bs-primary);
+    border-color: var(--bs-primary);
+    color: white;
+}
+
+[data-theme] .btn-primary:hover {
+    background-color: var(--bs-primary-dark);
+    border-color: var(--bs-primary-dark);
+}
+
+[data-theme] .btn-primary:active,
+[data-theme] .btn-primary:focus {
+    background-color: var(--bs-primary-darker);
+    border-color: var(--bs-primary-darker);
+}
+
+[data-theme] .btn-outline-primary {
+    color: var(--bs-primary) !important;
+    border-color: var(--bs-primary);
+}
+
+/* Make inner text/icons follow the button color (fix unreadable outline-primary content) */
+[data-theme] .btn-outline-primary,
+[data-theme] .btn-outline-primary * {
+    color: inherit;
+}
+
+[data-theme] .btn-outline-primary:hover {
+    background-color: var(--bs-primary) !important;
+    border-color: var(--bs-primary) !important;
+    color: white !important;
+}
+
+[data-theme] .btn-outline-primary:hover,
+[data-theme] .btn-outline-primary:hover * {
+    color: white !important;
+}
+
+[data-theme] .btn-outline-primary:active,
+[data-theme] .btn-outline-primary:focus {
+    background-color: var(--bs-primary-dark) !important;
+    border-color: var(--bs-primary-dark) !important;
+    color: white !important;
+}
+
+[data-theme] .btn-outline-primary:active,
+[data-theme] .btn-outline-primary:active *,
+[data-theme] .btn-outline-primary:focus,
+[data-theme] .btn-outline-primary:focus * {
+    color: white !important;
+}
+
+[data-theme] .bg-primary {
+    background-color: var(--bs-primary) !important;
+}
+
+[data-theme] .text-primary {
+    color: var(--bs-primary-vibrant) !important;
+    font-weight: 700 !important;
+    text-shadow: 0 0 0.5px rgba(0,0,0,0.1);
+}
+
+[data-theme] a {
+    color: var(--bs-primary-vibrant);
+    font-weight: 700;
+    text-shadow: 0 0 0.5px rgba(0,0,0,0.1);
+}
+
+[data-theme] a:hover {
+    color: var(--bs-primary-darker);
+    text-decoration: underline;
+}
+
+/* Theme-aware btn-link (Bootstrap) */
+[data-theme] .btn-link {
+    color: var(--bs-primary-vibrant) !important;
+}
+
+/* ==================== BUTTON GROUP / SPLIT DROPDOWN UNIFICATION ==================== */
+
+/* Make split dropdown buttons appear as one control (theme-level; affects all components) */
+[data-theme] .btn-group > .btn + .dropdown-toggle.dropdown-toggle-split,
+[data-theme] .btn-group > .btn + .btn.dropdown-toggle.dropdown-toggle-split {
+    margin-left: -1px;
+}
+
+[data-theme] .btn-group > .dropdown-toggle.dropdown-toggle-split {
+    padding-left: .55rem !important;
+    padding-right: .55rem !important;
+}
+
+[data-theme] .btn-group > .btn + .dropdown-toggle.dropdown-toggle-split {
+    border-top-left-radius: 0 !important;
+    border-bottom-left-radius: 0 !important;
+}
+
+[data-theme] .btn-group > .btn:first-child {
+    border-top-right-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+}
+
+/* Match split caret colors with the preceding outline button (common variants) */
+[data-theme] .btn-group > .btn.btn-outline-primary + .dropdown-toggle.dropdown-toggle-split {
+    border-color: var(--bs-primary) !important;
+    color: var(--bs-primary) !important;
+}
+
+[data-theme] .btn-group > .btn.btn-outline-primary + .dropdown-toggle.dropdown-toggle-split:hover,
+[data-theme] .btn-group > .btn.btn-outline-primary + .dropdown-toggle.dropdown-toggle-split:focus,
+[data-theme] .btn-group > .btn.btn-outline-primary + .dropdown-toggle.dropdown-toggle-split:active,
+[data-theme] .btn-group > .btn.btn-outline-primary + .dropdown-toggle.dropdown-toggle-split.show {
+    background-color: rgba(var(--bs-primary-rgb), 0.08) !important;
+}
+
+[data-theme] .btn-group > .btn.btn-outline-secondary + .dropdown-toggle.dropdown-toggle-split {
+    border-color: rgba(0,0,0,0.12) !important;
+    color: #6c757d !important;
+}
+
+[data-theme] .btn-group > .btn.btn-outline-secondary + .dropdown-toggle.dropdown-toggle-split:hover,
+[data-theme] .btn-group > .btn.btn-outline-secondary + .dropdown-toggle.dropdown-toggle-split:focus,
+[data-theme] .btn-group > .btn.btn-outline-secondary + .dropdown-toggle.dropdown-toggle-split:active,
+[data-theme] .btn-group > .btn.btn-outline-secondary + .dropdown-toggle.dropdown-toggle-split.show {
+    background-color: rgba(0,0,0,0.04) !important;
+}
+
+[data-theme] .btn-group > .btn.btn-outline-success + .dropdown-toggle.dropdown-toggle-split {
+    border-color: var(--bs-success, #198754) !important;
+    color: var(--bs-success, #198754) !important;
+}
+
+[data-theme] .btn-group > .btn.btn-outline-success + .dropdown-toggle.dropdown-toggle-split:hover,
+[data-theme] .btn-group > .btn.btn-outline-success + .dropdown-toggle.dropdown-toggle-split:focus,
+[data-theme] .btn-group > .btn.btn-outline-success + .dropdown-toggle.dropdown-toggle-split:active,
+[data-theme] .btn-group > .btn.btn-outline-success + .dropdown-toggle.dropdown-toggle-split.show {
+    background-color: rgba(25, 135, 84, 0.10) !important;
+}
+
+[data-theme] .btn-group > .btn.btn-outline-danger + .dropdown-toggle.dropdown-toggle-split {
+    border-color: var(--bs-danger, #dc3545) !important;
+    color: var(--bs-danger, #dc3545) !important;
+}
+
+[data-theme] .btn-group > .btn.btn-outline-danger + .dropdown-toggle.dropdown-toggle-split:hover,
+[data-theme] .btn-group > .btn.btn-outline-danger + .dropdown-toggle.dropdown-toggle-split:focus,
+[data-theme] .btn-group > .btn.btn-outline-danger + .dropdown-toggle.dropdown-toggle-split:active,
+[data-theme] .btn-group > .btn.btn-outline-danger + .dropdown-toggle.dropdown-toggle-split.show {
+    background-color: rgba(220, 53, 69, 0.10) !important;
+}
+
+[data-theme] .btn-group > .btn.btn-outline-warning + .dropdown-toggle.dropdown-toggle-split {
+    border-color: var(--bs-warning, #ffc107) !important;
+    color: var(--bs-warning, #ffc107) !important;
+}
+
+[data-theme] .btn-group > .btn.btn-outline-warning + .dropdown-toggle.dropdown-toggle-split:hover,
+[data-theme] .btn-group > .btn.btn-outline-warning + .dropdown-toggle.dropdown-toggle-split:focus,
+[data-theme] .btn-group > .btn.btn-outline-warning + .dropdown-toggle.dropdown-toggle-split:active,
+[data-theme] .btn-group > .btn.btn-outline-warning + .dropdown-toggle.dropdown-toggle-split.show {
+    background-color: rgba(255, 193, 7, 0.12) !important;
+}
+
+/* ==================== FORM CONTROLS ==================== */
+[data-theme] .form-control:focus,
+[data-theme] .form-select:focus,
+[data-theme] .form-check-input:focus {
+    border-color: var(--bs-primary);
+    box-shadow: 0 0 0 0.15rem rgba(var(--bs-primary-rgb), 0.25);
+}

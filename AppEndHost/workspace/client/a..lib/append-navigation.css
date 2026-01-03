@@ -1,0 +1,146 @@
+/* ====================================
+   MODERN NAVIGATION & MENU STYLES
+   Reusable navigation components with modern design
+   Scoped to side menu contexts only
+   ==================================== */
+
+/* === MODERN ICON BUTTON === */
+.d-flex.h-100 > div:first-child .modern-icon-btn,
+.modern-icon-btn {
+    border-radius: 8px !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.06) !important;
+    transition: all 0.2s ease;
+}
+
+.d-flex.h-100 > div:first-child .modern-icon-btn:hover,
+.modern-icon-btn:hover {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07), 0 2px 4px rgba(0, 0, 0, 0.05) !important;
+    transform: translateY(-1px);
+}
+
+/* === MODERN MENU CARD === */
+.modern-menu-card {
+    background: rgba(255, 255, 255, 0.95);
+}
+
+/* === MODERN MENU LINK === */
+.modern-menu-card .modern-menu-link,
+.modern-menu-link {
+    border-radius: 4px;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    min-height: 36px;
+}
+
+.modern-menu-card .modern-menu-link span,
+.modern-menu-link span {
+    line-height: 1.2;
+}
+
+.modern-menu-card .modern-menu-link i,
+.modern-menu-link i {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    position: relative;
+    top: 1px;
+}
+
+/* Improved secondary-emphasis color */
+.modern-menu-card .text-secondary-emphasis,
+.modern-menu-link.text-secondary-emphasis {
+    color: rgba(33, 37, 41, 0.85) !important;
+    font-weight: 500;
+}
+
+.modern-menu-card .text-secondary,
+.text-secondary {
+    color: rgba(108, 117, 125, 0.9) !important;
+}
+
+/* === MODERN SELECTED ELEMENT - LEVEL 1 (Icon Bar) === */
+.d-flex.h-100 > div:first-child .modern-selected-el {
+    position: relative;
+    /* Very subtle gradient in the left sidebar, similar to Backend */
+    background: linear-gradient(135deg, rgba(var(--bs-primary-rgb), 0.02) 0%, rgba(var(--bs-primary-rgb), 0.02) 100%) rgba(255, 255, 255, 0.95) !important;
+    color: rgba(var(--bs-primary-rgb), 1) !important;
+    border: 1px solid rgba(var(--bs-primary-rgb), 0.15) !important;
+    border-radius: 8px !important;
+    box-shadow: 0 1px 2px rgba(var(--bs-primary-rgb), 0.08), 0 1px 1px rgba(var(--bs-primary-rgb), 0.06) !important;
+    font-weight: 600 !important;
+}
+
+/* === MODERN SELECTED ELEMENT - LEVEL 2 (Menu Links) === */
+.modern-menu-card .modern-menu-link.modern-selected-el,
+.modern-selected-el {
+    position: relative;
+    /* Subtle gradient */
+    background: linear-gradient(135deg, rgba(var(--bs-primary-rgb), 0.03) 0%, rgba(var(--bs-primary-rgb), 0.03) 100%) !important;
+    /* Change text color to match primary color */
+    color: rgba(var(--bs-primary-rgb), 1) !important;
+    border: 1px solid rgba(var(--bs-primary-rgb), 0.25) !important;
+    border-radius: 4px !important;
+    box-shadow: 0 4px 8px rgba(var(--bs-primary-rgb), 0.15), 0 2px 4px rgba(var(--bs-primary-rgb), 0.1) !important;
+    font-weight: 600 !important;
+}
+
+/* Indicator line for LTR (left side) */
+.d-flex.h-100 .modern-selected-el::before,
+.modern-selected-el::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 6px;
+    bottom: 6px;
+    width: 3px;
+    background: linear-gradient(180deg, rgba(var(--bs-primary-rgb), 1) 0%, rgba(var(--bs-primary-rgb), 1) 100%);
+    border-radius: 6px;
+}
+
+/* Indicator line for RTL (right side) */
+[dir="rtl"] .d-flex.h-100 .modern-selected-el::before,
+[dir="rtl"] .modern-selected-el::before {
+    left: auto;
+    right: 0;
+}
+
+/* === MODERN HOVER EFFECT === */
+.modern-menu-card .modern-hover-bg-light:hover,
+.modern-hover-bg-light:hover {
+    /* Very subtle hover background */
+    background: rgba(var(--bs-primary-rgb), 0.04) !important;
+    /* Softer and lighter color on hover with primary color */
+    color: rgba(var(--bs-primary-rgb), 0.9) !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04) !important;
+}
+
+/* === MODERN HAMBURGER MENU BUTTON === */
+.modern-menu-btn {
+    width: 38px;
+    height: 38px;
+    background: linear-gradient(135deg, rgba(var(--bs-primary-rgb), 0.08) 0%, rgba(var(--bs-primary-rgb), 0.08) 100%);
+    border: 1px solid rgba(var(--bs-primary-rgb), 0.15);
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    padding: 0;
+    color: rgba(var(--bs-primary-rgb), 0.9) !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.06);
+}
+
+.modern-menu-btn:hover {
+    background: linear-gradient(135deg, rgba(var(--bs-primary-rgb), 0.12) 0%, rgba(var(--bs-primary-rgb), 0.12) 100%);
+    border-color: rgba(var(--bs-primary-rgb), 0.3);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07), 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.modern-menu-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+}

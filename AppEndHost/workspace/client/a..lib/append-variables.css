@@ -1,0 +1,117 @@
+/* ====================================
+   CSS VARIABLES & COLOR TOKENS
+   Fluent Design color palette and semantic tokens
+   ==================================== */
+
+:root {
+    /* Base Fluent palette (approximate RGB values from Fluent UI design tokens) */
+    --fluent-primary-50: #fcebf5;
+    --fluent-primary-100: #fdd6ec;
+    --fluent-primary-200: #fbb0d9;
+    --fluent-primary-300: #f98ac6;
+    --fluent-primary-400: #f05eb0;
+    --fluent-primary-500: #e3008c; /* Pink Base */
+    --fluent-primary-600: #b10070;
+    --fluent-primary-700: #850054;
+    --fluent-primary-800: #5e003b;
+    --fluent-primary-900: #3b0025;
+
+    --fluent-success-50: #ecfdf5;
+    --fluent-success-100: #d1fae5;
+    --fluent-success-200: #a7f3d0;
+    --fluent-success-300: #6ee7b7;
+    --fluent-success-400: #34d399;
+    --fluent-success-500: #10b981; /* Green */
+    --fluent-success-600: #059669;
+    --fluent-success-700: #047857;
+    --fluent-success-800: #065f46;
+    --fluent-success-900: #064e3b;
+
+    --fluent-danger-50: #fef2f2;
+    --fluent-danger-100: #fee2e2;
+    --fluent-danger-200: #fecaca;
+    --fluent-danger-300: #fca5a5;
+    --fluent-danger-400: #f87171;
+    --fluent-danger-500: #ef4444; /* Red */
+    --fluent-danger-600: #dc2626;
+    --fluent-danger-700: #b91c1c;
+    --fluent-danger-800: #991b1b;
+    --fluent-danger-900: #7f1d1d;
+
+    --fluent-warning-50: #fffbeb;
+    --fluent-warning-100: #fef3c7;
+    --fluent-warning-200: #fde68a;
+    --fluent-warning-300: #fcd34d;
+    --fluent-warning-400: #fbbf24;
+    --fluent-warning-500: #f59e0b; /* Amber */
+    --fluent-warning-600: #d97706;
+    --fluent-warning-700: #b45309;
+    --fluent-warning-800: #92400e;
+    --fluent-warning-900: #78350f;
+
+    --fluent-neutral-50: #fafafa;  /* Gray */
+    --fluent-neutral-100: #f5f5f5;
+    --fluent-neutral-200: #eeeeee;
+    --fluent-neutral-300: #e0e0e0;
+    --fluent-neutral-400: #bdbdbd;
+    --fluent-neutral-500: #9e9e9e; /* Neutral Gray */
+    --fluent-neutral-600: #757575;
+    --fluent-neutral-700: #616161;
+    --fluent-neutral-800: #424242;
+    --fluent-neutral-900: #212121;
+
+    /* Semantic tokens (use these across the app) */
+    --color-accent: var(--bs-primary);
+    --color-accent-hover: var(--bs-primary-dark);
+    --color-accent-subtle: var(--bs-primary-subtle-light);
+
+    --color-border: var(--fluent-primary-300);
+    --color-focus: var(--fluent-primary-400);
+
+    --color-bg: var(--fluent-neutral-50);
+    --color-bg-subtle: var(--fluent-neutral-100);
+    --color-bg-elevated: #ffffff;
+
+    --color-text: var(--fluent-neutral-800);
+    --color-text-muted: var(--fluent-neutral-500);
+    --color-text-inverse: #ffffff;
+
+    --color-success: var(--fluent-success-500);
+    --color-success-subtle: var(--fluent-success-50);
+    --color-danger: var(--fluent-danger-500);
+    --color-danger-subtle: var(--fluent-danger-50);
+    --color-warning: var(--fluent-warning-500);
+    --color-warning-subtle: var(--fluent-warning-50);
+
+    /* Bootstrap Overrides for Consistency */
+    --bs-primary: var(--fluent-primary-500);
+    --bs-primary-rgb: 227, 0, 140; /* RGB of #e3008c */
+    --bs-secondary: var(--fluent-neutral-500);
+    --bs-secondary-rgb: 158, 158, 158; /* RGB of #9e9e9e */
+    --bs-primary-dark: var(--fluent-primary-600);
+    --bs-secondary-dark: var(--fluent-neutral-600);
+    --bs-primary-subtle-light: var(--fluent-primary-50);
+
+    /* Legacy variables mapped to new tokens */
+    --theme-color: rgb(243, 242, 241, 0.4);
+    --bg-page: url("/a..lib/images/bg-00.jpg");
+    --bg-content: url("/a..lib/images/bg-00.jpg");
+    --bg-login: url("/a..lib/images/bg-00.jpg");
+    --bg-frame-color: var(--color-accent-subtle);
+    --border-color: var(--color-border);
+    --text-color: var(--color-accent);
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --color-bg: var(--fluent-neutral-900);
+        --color-bg-subtle: var(--fluent-neutral-800);
+        --color-bg-elevated: var(--fluent-neutral-800);
+        --color-text: var(--fluent-neutral-100);
+        --color-text-muted: var(--fluent-neutral-400);
+        --color-text-inverse: var(--fluent-neutral-900);
+        --color-border: var(--fluent-neutral-600);
+        --color-accent-subtle: var(--fluent-primary-900);
+    }
+}
